@@ -1,5 +1,5 @@
 // create Grid
-function createGrid(size){
+function createGrid(size) {
     let screen = document.querySelector(".sketch-container");
     for (let i = 0; i < size; i++){
         let column = document.createElement("div");
@@ -20,26 +20,54 @@ function createGrid(size){
 createGrid(16);
 
 //hover over pixels
-function etchASketch(){
-  
+function etchASketch(colorFunc) {
     let gridPixel = document.querySelectorAll(".sketch-container div");
     gridPixel.forEach(pixel => {
         pixel.addEventListener("mouseover", (event) => {
-            event.target.style.backgroundColor = "darkgray";
+           
+            event.target.style.backgroundColor = colorFunc ? colorFunc() : "darkgray";
+            
         });
     });  
 };
 
 etchASketch();
 
-// select grid size button
+// grid size button
 let gridSizeBtn = document.querySelector(".grid-size");
 
 gridSizeBtn.addEventListener("click", () => {
-    let input = prompt("Enter valid number (max = 100): ");
-    let size = parseInt(input);
+    let size;
+    do {
+        let input = prompt("Enter grid size (1-100)");
+        size = parseInt(input);
+    } while (isNaN(size) || size < 1 || size > 100);
+    
     let screen = document.querySelector(".sketch-container");
     screen.innerHTML = "";
+    
     createGrid(size);
     etchASketch();
 });
+
+// reset button
+function resetButton() {
+    let screen = document.querySelector(".sketch-container");
+    screen.innerHTML = "";
+    createGrid(16);
+    etchASketch();
+}
+let resetBtn = document.querySelector(".reset");
+resetBtn.addEventListener("click", resetButton);
+
+// random RGB button
+let randomBtn = document.querySelector(".random");
+randomBtn.addEventListener("click", ()=> {
+    etchASketch(getRandomColors);
+});
+function getRandomColors() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}

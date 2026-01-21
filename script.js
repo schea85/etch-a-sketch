@@ -19,14 +19,12 @@ function createGrid(size) {
 
 createGrid(16);
 
-//hover over pixels
+//hover over pixels Desktop
 function etchASketch(colorFunc) {
     let gridPixel = document.querySelectorAll(".sketch-container div");
     gridPixel.forEach(pixel => {
         pixel.addEventListener("mouseover", (event) => {
-           
-            event.target.style.backgroundColor = colorFunc ? colorFunc() : "darkgray";
-            
+            event.target.style.backgroundColor = colorFunc ? colorFunc() : "darkgray";    
         });
     });  
 };
@@ -71,3 +69,6 @@ function getRandomColors() {
     const b = Math.floor(Math.random() * 256);
     return `rgb(${r}, ${g}, ${b})`;
 }
+
+
+
